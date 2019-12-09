@@ -1,74 +1,75 @@
 version: '3'
 
-services: 
-    lws-nginx:
-        build: build/nginx
-        image: lws/nginx
-        container_name: lws-nginx
-        volumes: 
-            - "./volumes/nginx/log/:/var/log/nginx/"
-            - "./build/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro"
-            - "./volumes/data:/opt/data"
-            - "..:/project:ro"
-        ports:
-            - "127.0.0.1:8080:80"
-        networks:
-            - lws
-        depends_on:
-            - lws-php-fpm
+services:
+  lws-nginx:
+    build: build/nginx
+    image: lws/nginx
+    container_name: lws-nginx
+    volumes:
+      - "./volumes/nginx/log/:/var/log/nginx/"
+      - "./build/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro"
+      - "./volumes/data:/opt/data"
+      - "..:/project:ro"
+    ports:
+      - "127.0.0.1:8080:80"
+    networks:
+      - lws
+    depends_on:
+      - lws-php-fpm
 
-    lws-php-fpm:
-        build: build/php-fpm
-        image: lws/php-fpm
-        container_name: lws-php-fpm
-        volumes:
-            - "..:/project"
-            - "./build/php-fpm/php.ini:/etc/php/7.3/fpm/conf.d/00-php.ini:ro"
-            - "./volumes/data:/opt/data"
-        networks:
-            - lws
+  lws-php-fpm:
+    build: build/php-fpm
+    image: lws/php-fpm
+    container_name: lws-php-fpm
+    volumes:
+      - "..:/project"
+      - "./build/php-fpm/php.ini:/etc/php/7.3/fpm/conf.d/00-php.ini:ro"
+      - "./volumes/data:/opt/data"
+    networks:
+      - lws
 
-    lws-php-cli:
-        build: build/php-cli
-        image: lws/php-cli
-        container_name: lws-php-cli
-        volumes:
-            - "..:/project"
-            - "./build/php-cli/php.ini:/etc/php/7.3/cli/conf.d/00-php.ini:ro"
-            - "./volumes/data:/opt/data"
-        ports:
-            - "127.0.0.1:2222:22"
-        networks:
-            - lws
-        depends_on:
-            - lws-php-fpm
+  lws-php-cli:
+    build: build/php-cli
+    image: lws/php-cli
+    container_name: lws-php-cli
+    volumes:
+      - "..:/project"
+      - "./build/php-cli/php.ini:/etc/php/7.3/cli/conf.d/00-php.ini:ro"
+      - "./volumes/data:/opt/data"
+    ports:
+      - "127.0.0.1:2222:22"
+    networks:
+      - lws
+    depends_on:
+      - lws-php-fpm
 
-    lws-redis:
-        image: sameersbn/redis:4.0.9-3
-        container_name: lws-redis
-        ports:
-            - "127.0.0.1:6379:6379"
-        volumes:
-            - "./volumes/redis:/var/lib/redis"
-        environment:
-            REDIS_PORT: 6379
-        restart: always
-        networks:
-            - lws
+  lws-redis:
+    image: sameersbn/redis:4.0.9-3
+    container_name: lws-redis
+    ports:
+      - "127.0.0.1:6379:6379"
+    volumes:
+      - "./volumes/redis:/var/lib/redis"
+    environment:
+      REDIS_PORT: 6379
+    restart: always
+    networks:
+      - lws
 
-    lws-websockets:
-        build: build/websockets
-        image: lws/websockets
-        container_name: lws-websockets
-        volumes:
-            - "..:/project"
-        ports:
-            - "127.0.0.1:6001:6001"
-        networks:
-            - lws
-        depends_on:
-            - lws-redis
+  lws-websockets:
+    build: build/websockets
+    image: lws/websockets
+    container_name: lws-websockets
+    volumes:
+      - "..:/project"
+    restart: always
+    ports:
+      - "127.0.0.1:6001:6001"
+    networks:
+      - lws
+    depends_on:
+      - lws-redis
 
 networks:
-    lws:
-        external: true
+  lws:
+    external: true
