@@ -11,6 +11,19 @@
 |
 */
 
+use App\Events\NotificationEvent;
+
+/** @var \Laravel\Lumen\Routing\Router $router */
 $router->get('/', function () use ($router) {
     return $router->app->version();
+});
+
+$router->get('/websockets/test', function () {
+    try {
+        event(new NotificationEvent(['test' => 'success']));
+
+        return response("event were sent");
+    } catch (Exception $exception) {
+        return response($exception->getMessage() . PHP_EOL);
+    }
 });

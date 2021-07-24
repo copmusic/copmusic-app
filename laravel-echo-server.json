@@ -16,7 +16,7 @@
         },
         "publishPresence": true
     },
-    "devMode": false,
+    "devMode": true,
     "host": "lws-websockets",
     "port": 6001,
     "protocol": "http",

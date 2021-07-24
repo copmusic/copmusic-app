@@ -1,0 +1,62 @@
+version: '3'
+
+services:
+  lws-nginx:
+    image: nginx:stable-alpine
+    container_name: lws-nginx
+    volumes:
+      - .:/srv/lws:ro
+      - ./docker/build/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./docker/volumes/nginx/log/:/var/log/nginx/
+    ports:
+      - 8080:80
+    depends_on:
+      - lws-php-fpm
+    networks:
+      - lws
+
+  lws-php-fpm:
+    build:
+      context: docker/build/php-fpm
+      args:
+        USER_ID: ${CURRENT_USER_ID}
+    image: lws/php-fpm
+    container_name: lws-php-fpm
+    volumes:
+      - .:/srv/lws
+      - ./docker/build/php-fpm/supervisor.conf:/etc/supervisor/conf.d/supervisor.conf
+      - ./docker/volumes/data:/var/log/supervisor
+      - ./docker/volumes/data:/opt/data
+    networks:
+      - lws
+
+  lws-redis:
+    image: redis:latest
+    container_name: lws-redis
+    ports:
+      - 6379:6379
+    volumes:
+      - ./docker/volumes/redis:/var/lib/redis
+    environment:
+      REDIS_PORT: 6379
+    restart: always
+    networks:
+      - lws
+
+  lws-websockets:
+    build: docker/build/websockets
+    image: lws/websockets
+    container_name: lws-websockets
+    volumes:
+      - .:/srv/lws
+    restart: always
+    ports:
+      - 6001:6001
+    depends_on:
+      - lws-redis
+    networks:
+      - lws
+
+networks:
+  lws:
+    external: true
