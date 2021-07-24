@@ -10,13 +10,6 @@ RUN apt-get update \
   && docker-php-ext-install zip \
   && rm -rf /var/lib/apt/lists/*
 
-RUN set -ex \
-    && cd /tmp \
-    && php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
-    && php composer-setup.php --install-dir=/usr/bin --filename=composer \
-    && chmod +x /usr/bin/composer \
-    && rm -rf /tmp/*
-
 ARG USER_ID=1000
 RUN usermod -u $USER_ID www-data
 
