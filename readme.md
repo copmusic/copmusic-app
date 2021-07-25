@@ -12,6 +12,12 @@ Run:
 
     ./docker/run-dev.sh
 
+After that go to https://console.cloud.google.com/apis/library and get your YouTube Data API v3 key. More details: https://developers.google.com/youtube/v3/getting-started?hl=ru
+
+Insert the received key into .env.docker:
+
+    YOUTUBE_DATA_API_V3_KEY={YOUR_API_KEY}
+
 Go to http://127.0.0.1:8080/websockets/test/index.html and try to send event
 
 ## Source repository
