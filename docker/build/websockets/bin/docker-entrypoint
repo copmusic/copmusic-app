@@ -10,18 +10,18 @@ fi
 if [[ "$1" == 'start' ]] || [[ "$1" == 'client:add' ]] || [[ "$1" == 'client:remove' ]]; then
     if [[ "${GENERATE_CONFIG:-true}" == "false" ]]; then
         # wait for another process to inject the config
-        echo -n "Waiting for /srv/lws/laravel-echo-server.json"
-        while [[ ! -f /srv/lws/laravel-echo-server.json ]]; do
+        echo -n "Waiting for /srv/copmusic/laravel-echo-server.json"
+        while [[ ! -f /srv/copmusic/laravel-echo-server.json ]]; do
             sleep 2
             echo -n "."
         done
-    elif [[ ! -f /srv/lws/laravel-echo-server.json ]]; then
-        cp /usr/local/src/laravel-echo-server.json /srv/lws/laravel-echo-server.json
+    elif [[ ! -f /srv/copmusic/laravel-echo-server.json ]]; then
+        cp /usr/local/src/laravel-echo-server.json /srv/copmusic/laravel-echo-server.json
         # Replace with environment variables
-        sed -i "s|LARAVEL_ECHO_SERVER_DB|${LARAVEL_ECHO_SERVER_DB:-redis}|i" /srv/lws/laravel-echo-server.json
-        sed -i "s|REDIS_HOST|${REDIS_HOST:-localhost}|i" /srv/lws/laravel-echo-server.json
-        sed -i "s|REDIS_PORT|${REDIS_PORT:-6379}|i" /srv/lws/laravel-echo-server.json
-        sed -i "s|REDIS_DB_BACKEND|${REDIS_DB_BACKEND:-0}|i" /srv/lws/laravel-echo-server.json
+        sed -i "s|LARAVEL_ECHO_SERVER_DB|${LARAVEL_ECHO_SERVER_DB:-redis}|i" /srv/copmusic/laravel-echo-server.json
+        sed -i "s|REDIS_HOST|${REDIS_HOST:-localhost}|i" /srv/copmusic/laravel-echo-server.json
+        sed -i "s|REDIS_PORT|${REDIS_PORT:-6379}|i" /srv/copmusic/laravel-echo-server.json
+        sed -i "s|REDIS_DB_BACKEND|${REDIS_DB_BACKEND:-0}|i" /srv/copmusic/laravel-echo-server.json
     fi
     set -- laravel-echo-server "$@"
 fi

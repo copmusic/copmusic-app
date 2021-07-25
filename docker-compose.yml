@@ -1,38 +1,38 @@
 version: '3'
 
 services:
-  lws-nginx:
+  nginx:
     image: nginx:stable-alpine
-    container_name: lws-nginx
+    container_name: cop-nginx
     volumes:
-      - .:/srv/lws:ro
+      - .:/srv/copmusic:ro
       - ./docker/build/nginx/default.conf:/etc/nginx/conf.d/default.conf
       - ./docker/volumes/nginx/log/:/var/log/nginx/
     ports:
       - 8080:80
     depends_on:
-      - lws-php-fpm
+      - php-fpm
     networks:
-      - lws
+      - copmusic
 
-  lws-php-fpm:
+  php-fpm:
     build:
       context: docker/build/php-fpm
       args:
         USER_ID: ${CURRENT_USER_ID}
-    image: lws/php-fpm
-    container_name: lws-php-fpm
+    image: copmusic/php-fpm
+    container_name: cop-php-fpm
     volumes:
-      - .:/srv/lws
+      - .:/srv/copmusic
       - ./docker/build/php-fpm/supervisor.conf:/etc/supervisor/conf.d/supervisor.conf
       - ./docker/volumes/data:/var/log/supervisor
       - ./docker/volumes/data:/opt/data
     networks:
-      - lws
+      - copmusic
 
-  lws-redis:
+  redis:
     image: redis:latest
-    container_name: lws-redis
+    container_name: cop-redis
     ports:
       - 6379:6379
     volumes:
@@ -41,22 +41,22 @@ services:
       REDIS_PORT: 6379
     restart: always
     networks:
-      - lws
+      - copmusic
 
-  lws-websockets:
+  websockets:
     build: docker/build/websockets
-    image: lws/websockets
-    container_name: lws-websockets
+    image: copmusic/websockets
+    container_name: cop-websockets
     volumes:
-      - .:/srv/lws
+      - .:/srv/copmusic
     restart: always
     ports:
       - 6001:6001
     depends_on:
-      - lws-redis
+      - redis
     networks:
-      - lws
+      - copmusic
 
 networks:
-  lws:
+  copmusic:
     external: true

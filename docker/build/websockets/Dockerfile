@@ -1,6 +1,6 @@
 FROM node:10-alpine
 
-WORKDIR /srv/lws
+WORKDIR /srv/copmusic
 
 ### Install Laravel Echo Server and dependencies
 RUN apk add --update --no-cache openssl curl \
@@ -16,7 +16,7 @@ RUN apk add --update --no-cache openssl curl \
  && yarn global add --prod --no-lockfile laravel-echo-server \
  && apk del .build-deps \
  && yarn cache clean \
- && mkdir -p /srv/lws/database
+ && mkdir -p /srv/copmusic/database
 
 COPY . /usr/local/
 
@@ -24,7 +24,7 @@ RUN chmod +x /usr/local/bin/docker-entrypoint
 
 ENTRYPOINT ["docker-entrypoint"]
 
-VOLUME /srv/lws
+VOLUME /srv/copmusic
 
 EXPOSE 6001
 

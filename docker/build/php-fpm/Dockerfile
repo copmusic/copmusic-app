@@ -13,6 +13,6 @@ RUN apt-get update \
 ARG USER_ID=1000
 RUN usermod -u $USER_ID www-data
 
-WORKDIR /srv/lws
+WORKDIR /srv/copmusic
 
 ENTRYPOINT ["/usr/bin/supervisord", "-n", "-c",  "/etc/supervisor/conf.d/supervisor.conf"]

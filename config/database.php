@@ -59,7 +59,7 @@ return [
     'redis' => [
         'cluster' => false,
         'default' => [
-            'host' => env('REDIS_HOST', 'lws-redis'),
+            'host' => env('REDIS_HOST', 'cop-redis'),
             'password' => env('REDIS_PASSWORD', null),
             'port' => env('REDIS_PORT', 6379),
             'database' => env('REDIS_DATABASE', 0),

@@ -5,7 +5,7 @@
     "database": "redis",
     "databaseConfig": {
         "redis": {
-            "host": "lws-redis",
+            "host": "cop-redis",
             "port": "6379",
             "options": {
                 "db": "0"
@@ -14,7 +14,7 @@
         "publishPresence": true
     },
     "devMode": true,
-    "host": "lws-websockets",
+    "host": "cop-websockets",
     "port": 6001,
     "protocol": "http",
     "subscribers": {
