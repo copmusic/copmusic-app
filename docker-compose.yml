@@ -57,6 +57,18 @@ services:
     networks:
       - copmusic
 
+  go-media-fetcher:
+    image: mihaershv/go-media-fetcher
+    container_name: cop-go-media-fetcher
+    env_file:
+      - .env.docker
+    environment:
+      - YOUTUBE_DATA_API_V3_KEY=${YOUTUBE_DATA_API_V3_KEY}
+    ports:
+      - 8090:8090
+    networks:
+      - copmusic
+
 networks:
   copmusic:
     external: true
