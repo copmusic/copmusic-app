@@ -5,11 +5,15 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": "^7.2",
-        "illuminate/events": "^6.6",
-        "illuminate/redis": "^6.6",
-        "laravel/lumen-framework": "^6.0",
-        "predis/predis": "^1.1"
+        "php": "^7.4",
+        "doctrine/inflector": "^1.4|^2.0",
+        "illuminate/events": "^8.0",
+        "illuminate/redis": "^8.0",
+        "laravel-doctrine/migrations": "^2.3",
+        "laravel-doctrine/orm": "^1.7",
+        "laravel/lumen-framework": "^8.0",
+        "predis/predis": "^1.1",
+        "tymon/jwt-auth": "^1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "^1.4",

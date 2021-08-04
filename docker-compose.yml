@@ -13,8 +13,9 @@ services:
     depends_on:
       - php-fpm
     networks:
-      - copmusic
-
+      copmusic:
+        aliases:
+          - copmusic.local
   php-fpm:
     build:
       context: docker/build/php-fpm
@@ -27,6 +28,23 @@ services:
       - ./docker/build/php-fpm/supervisor.conf:/etc/supervisor/conf.d/supervisor.conf
       - ./docker/volumes/data:/var/log/supervisor
       - ./docker/volumes/data:/opt/data
+    networks:
+      - copmusic
+    environment:
+      PHP_IDE_CONFIG: serverName=copmusic.local
+
+  postgres:
+    image: postgres:11.5-alpine
+    container_name: cop-postgres
+    hostname: cop-postgres
+    environment:
+      POSTGRES_PASSWORD: admin
+      POSTGRES_USER: admin
+      POSTGRES_DB: copmusic
+    volumes:
+      - ./docker/volumes/postgres:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
     networks:
       - copmusic
 

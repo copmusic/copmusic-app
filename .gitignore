@@ -28,4 +28,4 @@ Homestead.json
 
 docker/volumes/*
 .env.docker
-
+.env.local
